@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { login } from "../services/auth";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, setLoggedUser }) {
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -11,7 +12,8 @@ export default function LoginScreen({ navigation }) {
       const user = await login(email, password);
       console.log("Usuário logado:", user);
 
-      navigation.replace("Home"); // navega sem possibilidade de voltar para login
+      setLoggedUser(user);  // navega sem possibilidade de voltar para login
+      
     } catch (error) {
       Alert.alert("Erro", error.message);
     }
@@ -41,6 +43,7 @@ export default function LoginScreen({ navigation }) {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+
         <Text style={styles.link}>Criar conta</Text>
       </TouchableOpacity>
     </View>
